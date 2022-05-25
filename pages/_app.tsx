@@ -6,7 +6,11 @@ import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
 import { RecoilRoot } from 'recoil';
+import { FuegoProvider } from 'swr-firestore-v9';
 import Layout from '@/components/layout/Layout';
+import { fuego } from '@/firebase/config';
+
+import '@/styles/globals.css';
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
@@ -21,27 +25,29 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   return (
     <>
       <Head>
-        <title>Mantine next example</title>
+        <title>XGYM Manager</title>
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
         <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
 
-      <RecoilRoot>
-        <ColorSchemeProvider colorScheme="dark" toggleColorScheme={toggleColorScheme}>
-          <MantineProvider
-            theme={{ colorScheme: 'dark', fontFamily: 'Inter, sans-serif' }}
-            withGlobalStyles
-            withNormalizeCSS
-            emotionOptions={{ key: 'mantine', prepend: false }}
-          >
+      <ColorSchemeProvider colorScheme="dark" toggleColorScheme={toggleColorScheme}>
+        <MantineProvider
+          theme={{ colorScheme: 'dark', fontFamily: 'Inter, sans-serif' }}
+          withGlobalStyles
+          withNormalizeCSS
+          emotionOptions={{ key: 'mantine', prepend: false }}
+        >
+          <RecoilRoot>
             <NotificationsProvider>
-              <Layout>
-                <Component {...pageProps} />
-              </Layout>
+              <FuegoProvider fuego={fuego}>
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </FuegoProvider>
             </NotificationsProvider>
-          </MantineProvider>
-        </ColorSchemeProvider>
-      </RecoilRoot>
+          </RecoilRoot>
+        </MantineProvider>
+      </ColorSchemeProvider>
     </>
   );
 }
