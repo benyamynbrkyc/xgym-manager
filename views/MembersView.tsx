@@ -16,7 +16,7 @@ export default function members() {
       <MemberList />
       {!addMemberDrawerOpened && (
         <ActionAffix
-          icon={<PlusIcon width={30} height={300} />}
+          icon={<PlusIcon width={30} height={30} />}
           actionCb={() => setAddMemberDrawerOpened(true)}
         />
       )}
