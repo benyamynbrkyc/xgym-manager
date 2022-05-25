@@ -37,7 +37,6 @@ export default function Layout({ children }: IProps) {
       padding="md"
       navbarOffsetBreakpoint="sm"
       navbar={<Navbar opened={opened} />}
-      // header={<Header />}
       styles={(theme) => ({
         main: {
           backgroundColor:

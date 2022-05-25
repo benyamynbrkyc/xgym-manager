@@ -6,6 +6,7 @@ export default function MemberList() {
   const { data: members, error } = useCollection('members', {
     listen: true,
   });
+
   if (error) {
     console.log(error);
     return <Text>{JSON.stringify(error)}</Text>;

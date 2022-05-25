@@ -64,7 +64,7 @@ export default function AddMemberForm() {
           placeholder=""
           {...form.getInputProps('idCardNumber')}
         />
-        <DatePicker placeholder="Pick date" label="Event date" required />
+        <DatePicker placeholder="" label="Datum rođenja" required dropdownType="modal" />
         <SegmentedControl
           {...form.getInputProps('gender')}
           data={[

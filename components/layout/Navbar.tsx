@@ -1,10 +1,9 @@
 import Image from 'next/image';
-import { Group, Navbar, Space, Stack, Text } from '@mantine/core';
+import { Button, Group, Navbar, Space, Stack, Text } from '@mantine/core';
 
-import { DatePicker } from '@mantine/dates';
 import type { NavLink as NavLinkType } from '@/components/button/NavLink';
 import NavLink from '@/components/button/NavLink';
-// import { addMembers } from '@/mock/add-members';
+import { addMembers } from '@/mock/add-members';
 
 const links: NavLinkType[] = [
   {
@@ -39,13 +38,12 @@ export default function Nav({ opened }: { opened: boolean }) {
           <NavLink link={link} key={link.href} />
         ))}
       </Stack>
-      <DatePicker placeholder="Pick date" label="Event date" required />
 
       {/*  todo: delete */}
       <Space h="lg" />
-      {/* <Button className="text-red-500" onClick={() => addMembers(2)}>
+      <Button className="text-red-500" onClick={() => addMembers(2)}>
         add mock data
-      </Button> */}
+      </Button>
     </Navbar>
   );
 }
