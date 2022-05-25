@@ -5,6 +5,8 @@ import { getCookie, setCookies } from 'cookies-next';
 import Head from 'next/head';
 import { MantineProvider, ColorScheme, ColorSchemeProvider } from '@mantine/core';
 import { NotificationsProvider } from '@mantine/notifications';
+import { RecoilRoot } from 'recoil';
+import Layout from '@/components/layout/Layout';
 
 export default function App(props: AppProps & { colorScheme: ColorScheme }) {
   const { Component, pageProps } = props;
@@ -24,13 +26,22 @@ export default function App(props: AppProps & { colorScheme: ColorScheme }) {
         <link rel="shortcut icon" href="/favicon.svg" />
       </Head>
 
-      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-        <MantineProvider theme={{ colorScheme }} withGlobalStyles withNormalizeCSS>
-          <NotificationsProvider>
-            <Component {...pageProps} />
-          </NotificationsProvider>
-        </MantineProvider>
-      </ColorSchemeProvider>
+      <RecoilRoot>
+        <ColorSchemeProvider colorScheme="dark" toggleColorScheme={toggleColorScheme}>
+          <MantineProvider
+            theme={{ colorScheme: 'dark', fontFamily: 'Inter, sans-serif' }}
+            withGlobalStyles
+            withNormalizeCSS
+            emotionOptions={{ key: 'mantine', prepend: false }}
+          >
+            <NotificationsProvider>
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </NotificationsProvider>
+          </MantineProvider>
+        </ColorSchemeProvider>
+      </RecoilRoot>
     </>
   );
 }
