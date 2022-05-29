@@ -19,5 +19,8 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'import/extensions': 'off',
     '@typescript-eslint/no-use-before-define': 0,
+    'nonblock-statement-body-position': 'off',
+    'curly': 'off',
+    'consistent-return': 'off',
   },
 };

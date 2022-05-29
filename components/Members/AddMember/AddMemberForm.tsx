@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { useState } from 'react';
 import { getDownloadURL, uploadBytes } from '@firebase/storage';
 import { DatePicker } from '@mantine/dates';
+import { showNotification } from '@mantine/notifications';
 import { Gender, Member } from '@/model/Member';
 import ImageField from '@/components/Members/AddMember/ImageField';
 import { storageRef } from '@/firebase/config';
@@ -32,19 +33,25 @@ export default function AddMemberForm() {
     validate: {
       firstName: (value) => (value.length > 0 ? null : 'Ime je obavezno'),
       lastName: (value) => (value.length > 0 ? null : 'Prezime je obavezno'),
-      imgUrl: (value) => (value.length > 0 ? null : 'Slika je obavezna'),
     },
   });
 
   const [imageFile, setImageFile] = useState<File | null>(null);
 
   const handleSubmit = form.onSubmit(async (values: Member) => {
+    if (!imageFile)
+      return showNotification({
+        title: 'Slika je obavezna.',
+        message: '',
+        color: 'red',
+      });
+
     const id = uuidv4();
     values.id = id;
     values.memberDisplayId = `${values.lastName}-${values.firstName}-${id}`;
-    values.imgUrl = await uploadImage(imageFile!);
 
-    await saveMember(values);
+    values.imgUrl = await uploadImage(imageFile!);
+    await saveMember(values, id);
   });
 
   const uploadImage = async (file: File): Promise<string> => {
@@ -64,7 +71,13 @@ export default function AddMemberForm() {
           placeholder=""
           {...form.getInputProps('idCardNumber')}
         />
-        <DatePicker placeholder="" label="Datum rođenja" required dropdownType="modal" />
+        <DatePicker
+          placeholder=""
+          label="Datum rođenja"
+          required
+          dropdownType="modal"
+          {...form.getInputProps('dateOfBirth')}
+        />
         <SegmentedControl
           {...form.getInputProps('gender')}
           data={[

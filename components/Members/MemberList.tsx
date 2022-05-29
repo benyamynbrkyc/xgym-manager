@@ -8,10 +8,11 @@ export default function MemberList() {
   });
 
   if (error) {
-    console.log(error);
     return <Text>{JSON.stringify(error)}</Text>;
   }
   if (!members) return <Text>Loading...</Text>;
+
+  members.forEach(console.log);
 
   return (
     <Table striped highlightOnHover verticalSpacing="lg" fontSize="md">
@@ -25,9 +26,9 @@ export default function MemberList() {
       <tbody>
         {members.map((member) => (
           <tr key={member.id}>
-            <td>{member.first}</td>
-            <td>{member.last}</td>
-            <td>{member.born}</td>
+            <td>{member.firstName}</td>
+            <td>{member.lastName}</td>
+            <td>{member.dateOfBirth.toDate().toISOString('yyyy-mm-dd')}</td>
           </tr>
         ))}
       </tbody>
