@@ -11,6 +11,7 @@ export async function addMembers(n: number = 1) {
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
       dateOfBirth: faker.date.between('1970-01-01T00:00:00.000Z', '2030-01-01T00:00:00.000Z'),
+      imgUrl: faker.image.avatar(),
     };
     members.push(member);
   }

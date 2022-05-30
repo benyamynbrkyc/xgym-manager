@@ -41,7 +41,7 @@ export default function Nav({ opened }: { opened: boolean }) {
 
       {/*  todo: delete */}
       <Space h="lg" />
-      <Button className="text-red-500" onClick={() => addMembers(2)}>
+      <Button fullWidth={false} variant="subtle" onClick={() => addMembers(2)}>
         add mock data
       </Button>
     </Navbar>
