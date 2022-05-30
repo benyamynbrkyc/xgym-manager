@@ -16,14 +16,14 @@ export default function Layout({ children }: IProps) {
   const [opened] = useState(false);
 
   useEffect(() => {
-    if (router.pathname === '/members') {
+    if (router.pathname.includes('/members')) {
       setActivePage({
         href: router.pathname,
         name: 'Članovi',
       });
     }
 
-    if (router.pathname === '/visits') {
+    if (router.pathname.includes('/visits')) {
       setActivePage({
         href: router.pathname,
         name: 'Posjete',

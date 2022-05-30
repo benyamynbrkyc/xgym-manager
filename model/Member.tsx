@@ -1,3 +1,5 @@
+import { Timestamp } from '@firebase/firestore';
+
 export enum Gender {
   FEMALE = 'f',
   MALE = 'm',
@@ -9,7 +11,7 @@ export type Member = {
   lastName: string;
   firstName: string;
   idCardNumber: string;
-  dateOfBirth: Date;
+  dateOfBirth: Timestamp;
   gender: Gender;
   address: string;
   phone: string;

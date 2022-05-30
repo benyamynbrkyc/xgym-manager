@@ -1,6 +1,6 @@
 import { PlusIcon } from '@modulz/radix-icons';
 import { useState } from 'react';
-import ActionAffix from '@/components/ActionAffix';
+import ActionAffix from '@/components/button/ActionAffix';
 import AddMemberDrawer from '@/components/Members/AddMember/AddMemberDrawer';
 import MemberList from '@/components/Members/MemberList';
 
