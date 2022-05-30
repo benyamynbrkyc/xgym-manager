@@ -1,12 +1,16 @@
 import { atom } from 'recoil';
-import type { NavLink } from '@/components/button/NavLink';
 
-interface IPageInfo extends NavLink {}
+interface IPageInfo {
+  href: string;
+  name: string;
+  backButton: boolean;
+}
 
 export const activePageAtom = atom<IPageInfo>({
   key: 'activePage',
   default: {
     href: '/members',
     name: 'Članovi',
+    backButton: false,
   },
 });
