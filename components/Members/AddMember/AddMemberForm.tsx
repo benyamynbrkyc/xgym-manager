@@ -14,7 +14,6 @@ import { saveMember } from '@/service/member-service';
 export default function AddMemberForm() {
   const form = useForm<Member>({
     initialValues: {
-      id: '',
       memberDisplayId: '',
       firstName: '',
       lastName: '',
@@ -47,7 +46,6 @@ export default function AddMemberForm() {
       });
 
     const id = uuidv4();
-    values.id = id;
     values.memberDisplayId = `${values.lastName}-${values.firstName}-${id}`;
 
     values.imgUrl = await uploadImage(imageFile!);
