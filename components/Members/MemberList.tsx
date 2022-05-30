@@ -1,9 +1,11 @@
-import { Table, Text } from '@mantine/core';
+import { Member } from '@/model/Member';
+import { Table, Text, UnstyledButton } from '@mantine/core';
+import Link from 'next/link';
 
 import { useCollection } from 'swr-firestore-v9';
 
 export default function MemberList() {
-  const { data: members, error } = useCollection('members', {
+  const { data: members, error } = useCollection<Member[]>('members', {
     listen: true,
   });
 
@@ -11,8 +13,6 @@ export default function MemberList() {
     return <Text>{JSON.stringify(error)}</Text>;
   }
   if (!members) return <Text>Loading...</Text>;
-
-  members.forEach(console.log);
 
   return (
     <Table striped highlightOnHover verticalSpacing="lg" fontSize="md">
@@ -25,11 +25,15 @@ export default function MemberList() {
       </thead>
       <tbody>
         {members.map((member) => (
-          <tr key={member.id}>
-            <td>{member.firstName}</td>
-            <td>{member.lastName}</td>
-            <td>{member.dateOfBirth.toDate().toISOString('yyyy-mm-dd')}</td>
-          </tr>
+          <Link href={`/members/${member.id}`}>
+            <UnstyledButton component="a">
+              <tr key={member.id}>
+                <td>{member.firstName}</td>
+                <td>{member.lastName}</td>
+                <td>{member.dateOfBirth.toDate().toISOString('yyyy-mm-dd')}</td>
+              </tr>
+            </UnstyledButton>
+          </Link>
         ))}
       </tbody>
     </Table>
