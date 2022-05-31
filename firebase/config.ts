@@ -20,11 +20,11 @@ const fuego = new Fuego(config);
 const firestore = getFirestore();
 
 const storage = getStorage(app);
-const storageRef = ref(storage, 'member_images');
+const storageRef = ref(storage);
 
 if (process.env.NEXT_PUBLIC_ENV === 'development') {
   connectFirestoreEmulator(firestore, 'localhost', 8080);
   connectStorageEmulator(storage, 'localhost', 9199);
 }
 
-export { firestore, fuego, storageRef };
+export { firestore, fuego, storageRef, storage };

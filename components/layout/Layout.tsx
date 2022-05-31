@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Navbar from '@/components/layout/Navbar';
 import Title from '@/components/layout/Title';
 import { activePageAtom } from '@/state/page';
+import TransitionProvider from './TransitionProvider';
 
 interface IProps {
   children: React.ReactNode;
@@ -12,24 +13,29 @@ interface IProps {
 
 export default function Layout({ children }: IProps) {
   const router = useRouter();
-  const [, setActivePage] = useRecoilState(activePageAtom);
+  const [activePage, setActivePage] = useRecoilState(activePageAtom);
   const [opened] = useState(false);
 
   useEffect(() => {
-    if (router.pathname.includes('/members')) {
+    if (router.pathname == '/members') {
       setActivePage({
+        backButton: false,
         href: router.pathname,
         name: 'Članovi',
       });
-    }
-
-    if (router.pathname.includes('/visits')) {
+    } else if (router.pathname == '/members/[memberId]') {
       setActivePage({
+        ...activePage,
+        backButton: true,
+      });
+    } else if (router.pathname.includes('/visits')) {
+      setActivePage({
+        ...activePage,
         href: router.pathname,
         name: 'Posjete',
       });
     }
-  }, [router.pathname]);
+  }, [router.route]);
 
   return (
     <AppShell
@@ -45,7 +51,7 @@ export default function Layout({ children }: IProps) {
       })}
     >
       <Title />
-      {children}
+      <TransitionProvider router={router}>{children}</TransitionProvider>
     </AppShell>
   );
 }

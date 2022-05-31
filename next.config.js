@@ -8,6 +8,6 @@ module.exports = withBundleAnalyzer({
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ['cloudflare-ipfs.com'],
+    domains: ['cloudflare-ipfs.com', 'localhost'],
   }
 });
