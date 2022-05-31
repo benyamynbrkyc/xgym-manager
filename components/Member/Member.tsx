@@ -1,7 +1,6 @@
 import useMember from '@/hooks/useMember';
 import { convertTimestampToDate } from '@/service/date';
-import { Center, Container, Loader, Paper, Space, Table, Title } from '@mantine/core';
-import Image from 'next/image';
+import { Center, Container, Loader, Paper, Space, Table, Title, Image } from '@mantine/core';
 
 export default function Member() {
   const { member, error } = useMember();
