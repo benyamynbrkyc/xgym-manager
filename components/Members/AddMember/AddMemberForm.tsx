@@ -10,6 +10,9 @@ import { Gender, Member } from '@/model/Member';
 import ImageField from '@/components/Members/AddMember/ImageField';
 import { storageRef } from '@/firebase/config';
 import { saveMember } from '@/service/member-service';
+import { Timestamp } from 'firebase/firestore';
+import { ref } from '@firebase/storage';
+import { storage } from '@/firebase/config';
 
 export default function AddMemberForm() {
   const form = useForm<Member>({
@@ -19,7 +22,7 @@ export default function AddMemberForm() {
       firstName: '',
       lastName: '',
       idCardNumber: '',
-      dateOfBirth: new Date(),
+      dateOfBirth: Timestamp.now(),
       gender: Gender.FEMALE,
       address: '',
       phone: '',
@@ -50,13 +53,14 @@ export default function AddMemberForm() {
     values.id = id;
     values.memberDisplayId = `${values.lastName}-${values.firstName}-${id}`;
 
-    values.imgUrl = await uploadImage(imageFile!);
+    values.imgUrl = await uploadImage(imageFile!, id);
     await saveMember(values, id);
   });
 
-  const uploadImage = async (file: File): Promise<string> => {
-    const snapshot = await uploadBytes(storageRef, file);
-    const url = await getDownloadURL(snapshot.ref);
+  const uploadImage = async (file: File, id: string): Promise<string> => {
+    const imageRef = ref(storage, `member_images/${id}`);
+    const snapshot = await uploadBytes(imageRef, file);
+    const url = await getDownloadURL(imageRef);
     return url;
   };
 
