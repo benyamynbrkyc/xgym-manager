@@ -14,7 +14,7 @@ import { Timestamp } from 'firebase/firestore';
 import { ref } from '@firebase/storage';
 import { storage } from '@/firebase/config';
 
-export default function AddMemberForm() {
+export default function AddMemberForm({ onCloseDrawer }: { onCloseDrawer: () => void }) {
   const form = useForm<Member>({
     initialValues: {
       id: '',
@@ -55,6 +55,11 @@ export default function AddMemberForm() {
 
     values.imgUrl = await uploadImage(imageFile!, id);
     await saveMember(values, id);
+    onCloseDrawer();
+    showNotification({
+      message: 'Član je uspješno dodan.',
+      color: 'green',
+    });
   });
 
   const uploadImage = async (file: File, id: string): Promise<string> => {
@@ -101,17 +106,24 @@ export default function AddMemberForm() {
           minRows={2}
           placeholder="Aleja ljiljana bb 74250 ..."
           label="Adresa"
+          {...form.getInputProps('address')}
         />
-        <TextInput placeholder="+387 12 345 6789" label="Telefon" />
-        <TextInput placeholder="email@email.com" label="Email" />
-        <TextInput placeholder="Grupa 1" label="Grupa" />
-        <TextInput placeholder="Mecava" label="Trener" />
+        <TextInput
+          placeholder="+387 12 345 6789"
+          label="Telefon"
+          {...form.getInputProps('phone')}
+        />
+        <TextInput placeholder="email@email.com" label="Email" {...form.getInputProps('email')} />
+        <TextInput placeholder="Grupa 1" label="Grupa" {...form.getInputProps('group')} />
+        <TextInput placeholder="Mecava" label="Trener" {...form.getInputProps('trainer')} />
+        <TextInput placeholder="Paket 1" label="Paket" {...form.getInputProps('package')} />
         <Textarea
           autosize
           maxRows={5}
           minRows={2}
           placeholder="Informacije o klijentu"
           label="Info"
+          {...form.getInputProps('info')}
         />
         <ImageField onLoad={(file) => setImageFile(file)} />
         {!imageFile && <Text color="red">* Slika je obavezna</Text>}
