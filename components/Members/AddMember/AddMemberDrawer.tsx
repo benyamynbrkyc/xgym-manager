@@ -22,7 +22,7 @@ export default function AddMemberDrawer({ opened, onClose }: IProps) {
           paddingRight: '15px',
         }}
       >
-        <AddMemberForm />
+        <AddMemberForm onCloseDrawer={onClose} />
       </ScrollArea>
     </Drawer>
   );

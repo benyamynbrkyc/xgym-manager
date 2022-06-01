@@ -1,7 +1,6 @@
 import useMember from '@/hooks/useMember';
 import { convertTimestampToDate } from '@/service/date';
-import { Center, Container, Loader, Paper, Space, Table, Title } from '@mantine/core';
-import Image from 'next/image';
+import { Center, Container, Loader, Paper, Space, Table, Title, Image, Text } from '@mantine/core';
 
 export default function Member() {
   const { member, error } = useMember();
@@ -13,7 +12,14 @@ export default function Member() {
   return (
     <Paper className="transition-all" p={20}>
       <Center className="flex flex-col justify-center">
-        <Image src={member.imgUrl} width={200} height={200} className="rounded-full" />
+        <Image
+          src={member.imgUrl}
+          width={200}
+          height={200}
+          radius={100}
+          withPlaceholder
+          placeholder={<Loader />}
+        />
         <Space h={'lg'} />
         <Title order={2} className="text-2xl">
           {member.firstName + ' ' + member.lastName}
