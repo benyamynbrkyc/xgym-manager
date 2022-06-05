@@ -1,17 +1,19 @@
+import { Member } from '@/model/Member';
 import { Drawer, ScrollArea } from '@mantine/core';
-import AddMemberForm from './AddMemberForm';
+import EditMemberForm from './EditMemberForm';
 
 interface IProps {
   opened: boolean;
   onClose: () => void;
+  member: Member;
 }
 
-export default function AddMemberDrawer({ opened, onClose }: IProps) {
+export default function EditMemberDrawer({ opened, onClose, member }: IProps) {
   return (
     <Drawer
       opened={opened}
       onClose={onClose}
-      title={<h1>Dodaj člana</h1>}
+      title={<h1>Uredi člana</h1>}
       padding="xl"
       size="xl"
       position="right"
@@ -22,7 +24,7 @@ export default function AddMemberDrawer({ opened, onClose }: IProps) {
           paddingRight: '15px',
         }}
       >
-        <AddMemberForm onCloseDrawer={onClose} />
+        <EditMemberForm onCloseDrawer={onClose} member={member} />
       </ScrollArea>
     </Drawer>
   );

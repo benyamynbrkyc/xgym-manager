@@ -1,84 +1,40 @@
-import useMember from '@/hooks/useMember';
+import { Member } from '@/model/Member';
 import { convertTimestampToDate } from '@/service/date';
-import { Center, Container, Loader, Paper, Space, Table, Title, Image, Text } from '@mantine/core';
+import { Center, Paper, Space, Table, Title, Image, UnstyledButton } from '@mantine/core';
+import { Edit } from 'tabler-icons-react';
+import General from './Details/General';
 
-export default function Member() {
-  const { member, error } = useMember();
+interface IProps {
+  member: Member;
+  onEditDrawerOpen: () => void;
+}
 
-  if (error) return 'An error occurred.';
-
-  if (!member) return <Loader />;
-
+export default function MemberComponent({ member, onEditDrawerOpen }: IProps) {
   return (
-    <Paper className="transition-all" p={20}>
-      <Center className="flex flex-col justify-center">
-        <Image
-          src={member.imgUrl}
-          width={200}
-          height={200}
-          radius={100}
-          withPlaceholder
-          placeholder={<Loader />}
-        />
-        <Space h={'lg'} />
-        <Title order={2} className="text-2xl">
-          {member.firstName + ' ' + member.lastName}
-        </Title>
-      </Center>
-
-      <Space h={'lg'} />
-      <Table striped fontSize={'lg'}>
-        <tbody>
-          <tr>
-            <td>Prezime</td>
-            <td>{member.lastName}</td>
-          </tr>
-          <tr>
-            <td>Ime</td>
-            <td>{member.firstName}</td>
-          </tr>
-          <tr>
-            <td>Datum rođenja</td>
-            <td>{convertTimestampToDate(member.dateOfBirth)}</td>
-          </tr>
-          <tr>
-            <td>Spol</td>
-            <td>{member.gender?.toString()}</td>
-          </tr>
-          <tr>
-            <td>Broj licne</td>
-            <td>{member.idCardNumber}</td>
-          </tr>
-          <tr>
-            <td>Adresa</td>
-            <td>{member.address}</td>
-          </tr>
-          <tr>
-            <td>Telefon</td>
-            <td>{member.phone}</td>
-          </tr>
-          <tr>
-            <td>Grupa</td>
-            <td>{member.group}</td>
-          </tr>
-          <tr>
-            <td>Email</td>
-            <td>{member.email}</td>
-          </tr>
-          <tr>
-            <td>Trener</td>
-            <td>{member.trainer}</td>
-          </tr>
-          <tr>
-            <td>Paket</td>
-            <td>{member.package}</td>
-          </tr>
-          <tr>
-            <td>Info</td>
-            <td>{member.info}</td>
-          </tr>
-        </tbody>
-      </Table>
-    </Paper>
+    <>
+      <Paper className="transition-all rounded" p={20}>
+        {/* image */}
+        <Center className="flex flex-col justify-center relative">
+          <UnstyledButton onClick={onEditDrawerOpen}>
+            <Edit
+              className="absolute right-0 top-0 hover:text-red-500 transition-all "
+              height={25}
+              width={25}
+            />
+          </UnstyledButton>
+          <Image src={member.imgUrl} width={200} height={200} radius={100} />
+          <Space h="lg" />
+          <Title order={2} className="text-2xl">
+            {member.firstName} {member.lastName}
+          </Title>
+        </Center>
+        <Space h="lg" />
+        {/* details */}
+      </Paper>
+      <Space h="lg" />
+      <Paper className="rounded">
+        <General member={member} />
+      </Paper>
+    </>
   );
 }

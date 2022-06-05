@@ -4,6 +4,39 @@ import { Dropzone, DropzoneStatus, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { useEffect, useState } from 'react';
 import { showNotification } from '@mantine/notifications';
 
+interface IProps {
+  onLoad: (file: File) => void;
+  src?: string;
+}
+
+export default function ImageField({ onLoad, src }: IProps) {
+  const theme = useMantineTheme();
+  const [file, setFile] = useState<File | null>(null);
+
+  useEffect(() => {
+    if (file) {
+      onLoad(file);
+    }
+  }, [file]);
+
+  return (
+    <Dropzone
+      onDrop={(files) => setFile(files[0])}
+      onReject={() =>
+        showNotification({
+          title: 'Greška pri uploadu fajla.',
+          message: 'Dozvoljen je samo upload slika.',
+          color: 'red',
+        })
+      }
+      maxSize={3 * 1024 ** 2}
+      accept={IMAGE_MIME_TYPE}
+    >
+      {(status) => dropzoneChildren(status, theme, file, src)}
+    </Dropzone>
+  );
+}
+
 function getIconColor(status: DropzoneStatus, theme: MantineTheme) {
   return status.accepted
     ? theme.colors[theme.primaryColor][theme.colorScheme === 'dark' ? 4 : 6]
@@ -29,7 +62,20 @@ function ImageUploadIcon({
   return <Photo {...props} />;
 }
 
-const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme, file: File | null) => {
+const dropzoneChildren = (
+  status: DropzoneStatus,
+  theme: MantineTheme,
+  file: File | null,
+  src?: string
+) => {
+  if (src && src.length > 0 && !file) {
+    return (
+      <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: 'none' }}>
+        <Image src={src} radius="md" alt="Profile pic" />
+      </Group>
+    );
+  }
+
   if (!file) {
     return (
       <Group position="center" spacing="xl" style={{ minHeight: 220, pointerEvents: 'none' }}>
@@ -53,31 +99,3 @@ const dropzoneChildren = (status: DropzoneStatus, theme: MantineTheme, file: Fil
     </Group>
   );
 };
-
-export default function ImageField({ onLoad }: { onLoad: (file: File) => void }) {
-  const theme = useMantineTheme();
-  const [file, setFile] = useState<File | null>(null);
-
-  useEffect(() => {
-    if (file) {
-      onLoad(file);
-    }
-  }, [file]);
-
-  return (
-    <Dropzone
-      onDrop={(files) => setFile(files[0])}
-      onReject={() =>
-        showNotification({
-          title: 'Greška pri uploadu fajla.',
-          message: 'Dozvoljen je samo upload slika.',
-          color: 'red',
-        })
-      }
-      maxSize={3 * 1024 ** 2}
-      accept={IMAGE_MIME_TYPE}
-    >
-      {(status) => dropzoneChildren(status, theme, file)}
-    </Dropzone>
-  );
-}

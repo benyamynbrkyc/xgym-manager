@@ -1,11 +1,10 @@
 import { AppShell } from '@mantine/core';
-import { useRecoilState } from 'recoil';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import Navbar from '@/components/layout/Navbar';
 import Title from '@/components/layout/Title';
-import { activePageAtom } from '@/state/page';
 import TransitionProvider from './TransitionProvider';
+import useActiveRoute from '@/hooks/useActiveRoute';
 
 interface IProps {
   children: React.ReactNode;
@@ -13,29 +12,10 @@ interface IProps {
 
 export default function Layout({ children }: IProps) {
   const router = useRouter();
-  const [activePage, setActivePage] = useRecoilState(activePageAtom);
+
   const [opened] = useState(false);
 
-  useEffect(() => {
-    if (router.pathname == '/members') {
-      setActivePage({
-        backButton: false,
-        href: router.pathname,
-        name: 'Članovi',
-      });
-    } else if (router.pathname == '/members/[memberId]') {
-      setActivePage({
-        ...activePage,
-        backButton: true,
-      });
-    } else if (router.pathname.includes('/visits')) {
-      setActivePage({
-        ...activePage,
-        href: router.pathname,
-        name: 'Posjete',
-      });
-    }
-  }, [router.route]);
+  useActiveRoute();
 
   return (
     <AppShell

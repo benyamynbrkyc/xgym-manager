@@ -7,31 +7,22 @@ import { getDownloadURL, uploadBytes } from '@firebase/storage';
 import { DatePicker } from '@mantine/dates';
 import { showNotification } from '@mantine/notifications';
 import { Gender, Member } from '@/model/Member';
-import ImageField from '@/components/Members/AddMember/ImageField';
+import ImageField from '@/components/Member/ImageField';
 import { storageRef } from '@/firebase/config';
 import { saveMember } from '@/service/member-service';
 import { Timestamp } from 'firebase/firestore';
 import { ref } from '@firebase/storage';
 import { storage } from '@/firebase/config';
 
-export default function AddMemberForm({ onCloseDrawer }: { onCloseDrawer: () => void }) {
+interface IProps {
+  onCloseDrawer: () => void;
+  member: Member;
+}
+
+export default function EditMemberForm({ onCloseDrawer, member }: IProps) {
   const form = useForm<Member>({
     initialValues: {
-      id: '',
-      memberDisplayId: '',
-      firstName: '',
-      lastName: '',
-      idCardNumber: '',
-      dateOfBirth: Timestamp.now(),
-      gender: Gender.FEMALE,
-      address: '',
-      phone: '',
-      group: '',
-      email: '',
-      trainer: '',
-      info: '',
-      imgUrl: '',
-      package: '',
+      ...member,
     },
     validate: {
       firstName: (value) => (value.length > 0 ? null : 'Ime je obavezno'),
@@ -57,7 +48,7 @@ export default function AddMemberForm({ onCloseDrawer }: { onCloseDrawer: () => 
     await saveMember(values, id);
     onCloseDrawer();
     showNotification({
-      message: 'Član je uspješno dodan.',
+      message: 'Član je uspješno uređen.',
       color: 'green',
     });
   });
@@ -125,12 +116,12 @@ export default function AddMemberForm({ onCloseDrawer }: { onCloseDrawer: () => 
           label="Info"
           {...form.getInputProps('info')}
         />
-        <ImageField onLoad={(file) => setImageFile(file)} />
-        {!imageFile && <Text color="red">* Slika je obavezna</Text>}
+        <ImageField onLoad={(file) => setImageFile(file)} src={member.imgUrl} />
+        {!imageFile || (!member.imgUrl && <Text color="red">* Slika je obavezna</Text>)}
         <>
           <Space h="lg" />
           <Button type="submit" variant="filled" color="red">
-            Dodaj clana
+            Uredi člana
           </Button>
         </>
       </Stack>

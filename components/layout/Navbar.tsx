@@ -14,6 +14,10 @@ const links: NavLinkType[] = [
     href: '/visits',
     name: 'Visits',
   },
+  {
+    href: '/trainers',
+    name: 'Trainers',
+  },
 ];
 
 export default function Nav({ opened }: { opened: boolean }) {

@@ -30,7 +30,9 @@ export default function NavLink({ link }: { link: NavLink }) {
         className="w-full rounded transition-all hover:bg-red-500 hover:font-bold hover:text-black"
         p={8}
       >
-        <Text align="left">{link.name}</Text>
+        <Text size="lg" align="left">
+          {link.name}
+        </Text>
       </UnstyledButton>
     </Link>
   );
